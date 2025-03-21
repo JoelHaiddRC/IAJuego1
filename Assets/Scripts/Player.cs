@@ -33,14 +33,14 @@ public class Player : MonoBehaviour
     public GameObject sword;
     public bool canAttack;
     private bool attackAvailable;
+    public bool swordChar;
 
     //Movement variables
     public float walkSpeed;
     public bool isMoving;
     public Orientation orientation;
     Vector2 moveSpeed; //Not normalized speed
-    Vector2 walkingSpeed; //actual speed 
-    Vector2 facingDir;
+    Vector2 facingDir; 
     Vector2 lastDirection;
     Rigidbody2D rb;
     BoxCollider2D box;
@@ -53,12 +53,7 @@ public class Player : MonoBehaviour
     //Animation variables
     private Animator animator;
     public bool canChange;
-    public bool swordChar;
-
-    //External variables
-    [SerializeField] private LayerMask interactiveLayers;
-    public float followerProximity = 0.1f;
-    public int groundLenght;
+    public GameObject swordObject;
 
     void Start()
     {
@@ -70,7 +65,7 @@ public class Player : MonoBehaviour
         box = GetComponent<BoxCollider2D>();
 
         currentState = PlayerState.WALK;
-        canChange = false;
+        canChange = true;
         attackAvailable = true;
 
         sword.SetActive(false);
@@ -106,17 +101,9 @@ public class Player : MonoBehaviour
         }
         isMoving = rb.velocity != Vector2.zero;
 
+        Inputs();
         ManageStates();
         setOrientation();
-        Inputs();
-    }
-
-    public void ResumeState(PlayerState previous)
-    {
-        if (previous != currentState)
-        {
-            currentState = previous;
-        }
     }
 
     private void ManageStates()
@@ -178,10 +165,7 @@ public class Player : MonoBehaviour
 
     void Inputs()
     {
-        if (Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0)
-            moveSpeed = Vector2.zero;
-        else
-            moveSpeed = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        moveSpeed = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -214,32 +198,31 @@ public class Player : MonoBehaviour
         switch (orientation)
         {
             case Orientation.RIGHT:
-                lastDirection = Vector2.right;
+                lastDirection = facingDir = Vector2.right;
                 break;
             case Orientation.LEFT:
-                lastDirection = Vector2.left;
+                lastDirection = facingDir = Vector2.left;
                 break;
             case Orientation.UP:
-                lastDirection = Vector2.up;
+                lastDirection = facingDir = Vector2.up;
                 break;
             case Orientation.DOWN:
-                lastDirection = Vector2.down;
+                lastDirection = facingDir = Vector2.down;
                 break;
             case Orientation.UPRIGHT:
-                lastDirection = Vector2.right;
+                lastDirection = facingDir = Vector2.right;
                 break;
             case Orientation.DOWNRIGHT:
-                lastDirection = Vector2.right;
+                lastDirection = facingDir = Vector2.right;
                 break;
             case Orientation.UPLEFT:
-                lastDirection = Vector2.left;
+                lastDirection = facingDir = Vector2.left;
                 break;
             case Orientation.DOWNLEFT:
-                lastDirection = Vector2.left;
+                lastDirection = facingDir = Vector2.left;
                 break;
         }
 
-        walkingSpeed = moveSpeed.normalized;
         /*
         animator.SetFloat("MoveX", moveSpeed.x);
         animator.SetFloat("MoveY", moveSpeed.y);
@@ -288,27 +271,43 @@ public class Player : MonoBehaviour
         {
             case Orientation.RIGHT:
                 sword.transform.eulerAngles = new Vector3(0, 0, 90);
+                swordObject.transform.localPosition = new Vector3(0.72f, 0, 0);
+                swordObject.transform.eulerAngles = new Vector3(0, 0, 90);
                 break;
             case Orientation.LEFT:
                 sword.transform.eulerAngles = new Vector3(0, 0, 270);
+                swordObject.transform.localPosition = new Vector3(-0.72f, 0, 0);
+                swordObject.transform.eulerAngles = new Vector3(0, 0, 270);
                 break;
             case Orientation.UP:
                 sword.transform.eulerAngles = new Vector3(0, 0, 180);
+                swordObject.transform.localPosition = new Vector3(0, 0.72f, 0);
+                swordObject.transform.eulerAngles = new Vector3(0, 0, 180);
                 break;
             case Orientation.DOWN:
                 sword.transform.eulerAngles = new Vector3(0, 0, 0);
+                swordObject.transform.localPosition = new Vector3(0, -0.72f, 0);
+                swordObject.transform.eulerAngles = new Vector3(0, 0, 0);
                 break;
             case Orientation.UPRIGHT:
                 sword.transform.eulerAngles = new Vector3(0, 0, 90);
+                swordObject.transform.localPosition = new Vector3(0.72f, 0, 0);
+                swordObject.transform.eulerAngles = new Vector3(0, 0, 90);
                 break;
             case Orientation.DOWNRIGHT:
                 sword.transform.eulerAngles = new Vector3(0, 0, 90);
+                swordObject.transform.localPosition = new Vector3(0.72f, 0, 0);
+                swordObject.transform.eulerAngles = new Vector3(0, 0, 90);
                 break;
             case Orientation.UPLEFT:
                 sword.transform.eulerAngles = new Vector3(0, 0, 270);
+                swordObject.transform.localPosition = new Vector3(-0.72f, 0, 0);
+                swordObject.transform.eulerAngles = new Vector3(0, 0, 270);
                 break;
             case Orientation.DOWNLEFT:
                 sword.transform.eulerAngles = new Vector3(0, 0, 270);
+                swordObject.transform.localPosition = new Vector3(-0.72f, 0, 0);
+                swordObject.transform.eulerAngles = new Vector3(0, 0, 270);
                 break;
         }
 
@@ -330,13 +329,14 @@ public class Player : MonoBehaviour
         if (swordChar)
         {
             sword.SetActive(true);
+            swordObject.SetActive(true);
             swordPosition();
             yield return new WaitForSeconds(0.3f);
         }
         else
         {
-            yield return new WaitForSeconds(0.3f);
             GetComponent<Shooter>().Shoot(facingDir);
+            yield return new WaitForSeconds(0.3f);
         }
         currentState = PlayerState.WALK;
 
@@ -344,6 +344,7 @@ public class Player : MonoBehaviour
         if (swordChar)
         {
             sword.SetActive(false);
+            swordObject.SetActive(false);
         }
         //animator.SetBool("IsAttacking", false);
 
@@ -360,7 +361,7 @@ public class Player : MonoBehaviour
                 speed = Time.deltaTime * walkSpeed * 2;
             else
                 speed = Time.deltaTime * walkSpeed;
-            rb.velocity = walkingSpeed * speed;
+            rb.velocity = moveSpeed * speed;
         }
         else
         {

@@ -19,9 +19,6 @@ public class Enemy : MonoBehaviour
     public bool isVisible;
     public bool canChange;
     public bool canBeKnockbacked;
-    public GameObject drop;
-    public int dropChance = 0;
-    public int exp;
     public EnemyState currentState;
     protected LifeSystem lifeSystem;
     protected RoomTransition room;
@@ -35,10 +32,6 @@ public class Enemy : MonoBehaviour
             lifeSystem.DamageObject();
             if(canBeKnockbacked)
                 lifeSystem.KnockBack(hit);
-            if (lifeSystem.life == 0)
-            {
-                DropItem();
-            }
         }
     }
 
@@ -49,17 +42,6 @@ public class Enemy : MonoBehaviour
             Debug.Log("Player Exits");
             gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
         }
-    }
-
-    private void DropItem()
-    {
-        if (drop == null)
-            return;
-        if (dropChance > 100 || dropChance < 0)
-            Debug.LogWarning("Invalid value in dropChance for: " + gameObject.name);
-        if (Random.Range(0, 100) < dropChance)
-            Instantiate(drop, transform.position, Quaternion.identity);
-        drop = null;
     }
 
     public void ChangeState(EnemyState newState)
