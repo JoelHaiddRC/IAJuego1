@@ -53,7 +53,6 @@ public class Player : MonoBehaviour
     //Animation variables
     private Animator animator;
     public bool canChange;
-    public GameObject swordObject;
 
     void Start()
     {
@@ -63,6 +62,7 @@ public class Player : MonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
         box = GetComponent<BoxCollider2D>();
+        animator = GetComponent<Animator>();
 
         currentState = PlayerState.WALK;
         canChange = true;
@@ -120,7 +120,7 @@ public class Player : MonoBehaviour
                 break;
             case PlayerState.ATTACK:
                 canAttack = false;
-                //StopWalking();
+                StopWalking();
                 break;
             case PlayerState.DAMAGED:
                 canAttack = false;
@@ -155,7 +155,7 @@ public class Player : MonoBehaviour
     private void StopWalking()
     {
         moveSpeed = Vector2.zero;
-        //animator.SetBool("IsMoving", false);
+        animator.SetBool("IsMoving", false);
     }
 
     public Vector2 getSpeed()
@@ -223,7 +223,6 @@ public class Player : MonoBehaviour
                 break;
         }
 
-        /*
         animator.SetFloat("MoveX", moveSpeed.x);
         animator.SetFloat("MoveY", moveSpeed.y);
         animator.SetFloat("LastX", lastDirection.x);
@@ -233,7 +232,6 @@ public class Player : MonoBehaviour
             animator.SetBool("IsMoving", true);
         else
             animator.SetBool("IsMoving", false);
-        */
     }
 
     private void setOrientation()
@@ -271,43 +269,27 @@ public class Player : MonoBehaviour
         {
             case Orientation.RIGHT:
                 sword.transform.eulerAngles = new Vector3(0, 0, 90);
-                swordObject.transform.localPosition = new Vector3(0.72f, 0, 0);
-                swordObject.transform.eulerAngles = new Vector3(0, 0, 90);
                 break;
             case Orientation.LEFT:
                 sword.transform.eulerAngles = new Vector3(0, 0, 270);
-                swordObject.transform.localPosition = new Vector3(-0.72f, 0, 0);
-                swordObject.transform.eulerAngles = new Vector3(0, 0, 270);
                 break;
             case Orientation.UP:
                 sword.transform.eulerAngles = new Vector3(0, 0, 180);
-                swordObject.transform.localPosition = new Vector3(0, 0.72f, 0);
-                swordObject.transform.eulerAngles = new Vector3(0, 0, 180);
                 break;
             case Orientation.DOWN:
                 sword.transform.eulerAngles = new Vector3(0, 0, 0);
-                swordObject.transform.localPosition = new Vector3(0, -0.72f, 0);
-                swordObject.transform.eulerAngles = new Vector3(0, 0, 0);
                 break;
             case Orientation.UPRIGHT:
                 sword.transform.eulerAngles = new Vector3(0, 0, 90);
-                swordObject.transform.localPosition = new Vector3(0.72f, 0, 0);
-                swordObject.transform.eulerAngles = new Vector3(0, 0, 90);
                 break;
             case Orientation.DOWNRIGHT:
                 sword.transform.eulerAngles = new Vector3(0, 0, 90);
-                swordObject.transform.localPosition = new Vector3(0.72f, 0, 0);
-                swordObject.transform.eulerAngles = new Vector3(0, 0, 90);
                 break;
             case Orientation.UPLEFT:
                 sword.transform.eulerAngles = new Vector3(0, 0, 270);
-                swordObject.transform.localPosition = new Vector3(-0.72f, 0, 0);
-                swordObject.transform.eulerAngles = new Vector3(0, 0, 270);
                 break;
             case Orientation.DOWNLEFT:
                 sword.transform.eulerAngles = new Vector3(0, 0, 270);
-                swordObject.transform.localPosition = new Vector3(-0.72f, 0, 0);
-                swordObject.transform.eulerAngles = new Vector3(0, 0, 270);
                 break;
         }
 
@@ -325,18 +307,19 @@ public class Player : MonoBehaviour
         canAttack = false;
         currentState = PlayerState.ATTACK;
 
-        //animator.SetBool("IsAttacking", true);
         if (swordChar)
         {
+            animator.SetBool("IsAttacking", true);
             sword.SetActive(true);
-            swordObject.SetActive(true);
             swordPosition();
             yield return new WaitForSeconds(0.3f);
         }
         else
         {
+            animator.SetBool("IsShooting", true);
             GetComponent<Shooter>().Shoot(facingDir);
             yield return new WaitForSeconds(0.3f);
+            animator.SetBool("IsShooting", false);
         }
         currentState = PlayerState.WALK;
 
@@ -344,9 +327,8 @@ public class Player : MonoBehaviour
         if (swordChar)
         {
             sword.SetActive(false);
-            swordObject.SetActive(false);
+            animator.SetBool("IsAttacking", false);
         }
-        //animator.SetBool("IsAttacking", false);
 
         yield return new WaitForSeconds(reload);
         canAttack = true;
