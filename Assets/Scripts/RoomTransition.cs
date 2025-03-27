@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
+//Clase para hacer "cambio de cuartos", mover la cámara y activar/desactivar sus objetos
 public class RoomTransition : MonoBehaviour
 {
     public CinemachineVirtualCamera VirtualCam;

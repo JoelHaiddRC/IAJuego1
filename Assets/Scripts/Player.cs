@@ -2,15 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Estados del jugador
 public enum PlayerState
 {
     WALK,
     ATTACK,
-    INTERACT,
     DAMAGED,
     PAUSED
 }
 
+//Orientación del jugador para animaciones y dirección de ataque
+//Se definen 8 pero los diagonales se cambiarán a uno de los primeros 4
 public enum Orientation
 {
     RIGHT,
@@ -27,35 +29,36 @@ public enum Orientation
 
 public class Player : MonoBehaviour
 {
-    //Attack variables
-    public float attackSpeed;
+    //Variables de ataque
+    public float attackSpeed; //Tiempo de recarga de ataque
     public float knockback;
-    public GameObject sword;
-    public bool canAttack;
-    private bool attackAvailable;
-    public bool swordChar;
+    public GameObject sword; //El colisionador del ataque cuerpo a cuerpo
+    public bool canAttack; //Variable para el tiempo de recarga del arma
+    private bool attackAvailable; //Indica si ya se desbloqueo el ataque
+    public bool swordChar; //True = ataque cuerpo a cuerpo, False = ataque a distancia
 
-    //Movement variables
-    public float walkSpeed;
+    //Variables de movimiento
+    public float walkSpeed; //Velocidad máxima
     public bool isMoving;
     public Orientation orientation;
-    Vector2 moveSpeed; //Not normalized speed
-    Vector2 facingDir; 
-    Vector2 lastDirection;
+    Vector2 moveSpeed; //Velocidad actual
+    Vector2 facingDir; //Orientación actual del jugador
+    Vector2 lastDirection; //Última orientación registrada 
     Rigidbody2D rb;
     BoxCollider2D box;
 
-    //Life variables
+    //Variables de vida
     public bool isAlive;
     public PlayerState currentState;
     LifeSystem lifeSystem;
 
-    //Animation variables
+    //Variables de animación
     private Animator animator;
     public bool canChange;
 
     void Start()
     {
+        //Inicializar variables y obtener componentes
         lifeSystem = GetComponent<LifeSystem>();
         lifeSystem.resetState();
         isAlive = true;
@@ -77,17 +80,20 @@ public class Player : MonoBehaviour
 
         if (attackSpeed <= 0)
         {
-            Debug.LogWarning("Atack speed is 0 or below 0, its initial value will be set to 0.1");
+            Debug.LogWarning("Atack speed is 0 or below 0, " +
+                "its initial value will be set to 0.1");
             attackSpeed = 0.1f;
         }
         if (walkSpeed <= 0)
         {
-            Debug.LogWarning("Walk speed is 0 or below 0, its initial value will be set to 0.1");
+            Debug.LogWarning("Walk speed is 0 or below 0, " +
+                "its initial value will be set to 0.1");
             walkSpeed = 0.1f;
         }
         if (knockback <= 0)
         {
-            Debug.LogWarning("Knockback force is 0 or below 0, its initial value will be set to 0.1");
+            Debug.LogWarning("Knockback force is 0 or below 0, " +
+                "its initial value will be set to 0.1");
             knockback = 0.1f;
         }
     }
@@ -97,8 +103,10 @@ public class Player : MonoBehaviour
         if (!isAlive)
         {
             StopWalking();
-            //animator.SetTrigger("Out");
+            isMoving = false;
+            return;
         }
+
         isMoving = rb.velocity != Vector2.zero;
 
         Inputs();
@@ -106,6 +114,7 @@ public class Player : MonoBehaviour
         setOrientation();
     }
 
+    //Indica el comportamientos de cada estado del jugador
     private void ManageStates()
     {
         switch (currentState)
@@ -113,10 +122,6 @@ public class Player : MonoBehaviour
             case PlayerState.WALK:
                 canAttack = true;
                 Movement();
-                break;
-            case PlayerState.INTERACT:
-                canAttack = false;
-                StopWalking();
                 break;
             case PlayerState.ATTACK:
                 canAttack = false;
@@ -142,6 +147,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    //Mismo comportamiento que OnCollisionStay2D
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Enemies")
@@ -158,22 +164,19 @@ public class Player : MonoBehaviour
         animator.SetBool("IsMoving", false);
     }
 
-    public Vector2 getSpeed()
-    {
-        return rb.velocity;
-    }
-
+    //Maneja los inputs que da el jugador
     void Inputs()
     {
+        //Input de movimiento
         moveSpeed = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))    //Tevla de ataque
         {
             if (attackAvailable && canAttack && currentState != PlayerState.ATTACK)
                 StartCoroutine(Attack(attackSpeed));
         }
 
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C))    //Tecla de cambiar arma
         {
             if (currentState == PlayerState.WALK && canChange)
             {
@@ -182,6 +185,8 @@ public class Player : MonoBehaviour
             }
         }
     }
+
+    //Cambia el arma deteniendo el jugador y espera cierto tiempo de recarga
     private IEnumerator ChangeWeapon()
     {
         currentState = PlayerState.PAUSED;
@@ -191,7 +196,8 @@ public class Player : MonoBehaviour
         currentState = PlayerState.WALK;
     }
 
-
+    //Indica hacia dónde se movió por última vez el jugador
+    //para mostrar la animación correcta
     private void Movement()
     {
 
@@ -209,6 +215,7 @@ public class Player : MonoBehaviour
             case Orientation.DOWN:
                 lastDirection = facingDir = Vector2.down;
                 break;
+            //Los movimiento diagonales serán considerados como derecha o izquierda
             case Orientation.UPRIGHT:
                 lastDirection = facingDir = Vector2.right;
                 break;
@@ -223,6 +230,7 @@ public class Player : MonoBehaviour
                 break;
         }
 
+        //Variables para animación
         animator.SetFloat("MoveX", moveSpeed.x);
         animator.SetFloat("MoveY", moveSpeed.y);
         animator.SetFloat("LastX", lastDirection.x);
@@ -234,6 +242,7 @@ public class Player : MonoBehaviour
             animator.SetBool("IsMoving", false);
     }
 
+    //Indica la orientación en la que mira el jugador según su movimiento actual
     private void setOrientation()
     {
         if (moveSpeed.x > 0)
@@ -263,6 +272,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    //Gira la colisión de la espada hacia la dirección en la que mira el jugador
     private void swordPosition()
     {
         switch (orientation)
@@ -295,6 +305,7 @@ public class Player : MonoBehaviour
 
     }
 
+    //Dibuja una línea en la dirección en la que ve el jugador
     private void OnDrawGizmos()
     {
         Vector3 direction = new Vector3(facingDir.x * 2, facingDir.y * 2, 0);
@@ -302,6 +313,7 @@ public class Player : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + direction);
     }
 
+    //Corutina de ataque cuerpo a cuerpo y a distancia
     private IEnumerator Attack(float reload)
     {
         canAttack = false;
@@ -323,7 +335,6 @@ public class Player : MonoBehaviour
         }
         currentState = PlayerState.WALK;
 
-
         if (swordChar)
         {
             sword.SetActive(false);
@@ -339,14 +350,17 @@ public class Player : MonoBehaviour
         if (currentState == PlayerState.WALK)
         {
             float speed;
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            /* Tecla para correr, opcional
+            if (Input.GetKeyDown(KeyCode.LeftShift)) 
                 speed = Time.deltaTime * walkSpeed * 2;
             else
+            */
                 speed = Time.deltaTime * walkSpeed;
             rb.velocity = moveSpeed * speed;
         }
         else
         {
+            //Si el jugador es dañado puede ser que se haya empujado
             if (currentState != PlayerState.DAMAGED)
                 rb.velocity = Vector2.zero;
         }
