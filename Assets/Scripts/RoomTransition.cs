@@ -8,6 +8,7 @@ public class RoomTransition : MonoBehaviour
 {
     public CinemachineVirtualCamera VirtualCam;
     public GameObject roomObjects;
+    public GameObject off_screen;
     public bool canSpawnEnemies;
     public bool isPlayerHere;
 
@@ -22,6 +23,7 @@ public class RoomTransition : MonoBehaviour
             && isPlayerHere)
         {
             VirtualCam.Priority = 20;
+            off_screen.SetActive(false);
             StartCoroutine("Wait");
         }
     }
@@ -38,6 +40,7 @@ public class RoomTransition : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") && !collision.isTrigger
             && !isPlayerHere)
         {
+            off_screen.SetActive(true);
             roomObjects.SetActive(false);
             VirtualCam.Priority = 10;
             canSpawnEnemies = false;
