@@ -5,11 +5,8 @@ using UnityEngine;
 public class ArriveBehavior : SteeringBehavior
 {
 
-
-    
-    [SerializeField] private float speed;
-    [SerializeField] private float slow_radius;
-    [SerializeField] private float stop_radius;
+    [SerializeField] private float radioLento;
+    [SerializeField] private float radioParo;
 
 
     public override void Execute()
@@ -18,21 +15,29 @@ public class ArriveBehavior : SteeringBehavior
         Debug.Log("ArriveBehavior");
 
         if (objetivo != null) {
-            Vector2 direccion = new Vector2(objetivo.position.x, objetivo.position.y) - new Vector2(this.transform.position.x, this.transform.position.y);
-            
-            float distanceToTarget = direccion.magnitude;
+            Vector2 posicion = new Vector2(transform.position.x, transform.position.y);
+            Vector2 posicionObj = new Vector2(objetivo.position.x, objetivo.position.y);
+            Vector2 direccion = posicionObj -posicion ;
+
+
+            float distanciaObj = direccion.magnitude;
             //Debug.DrawRay(transform.position, direccion, Color.blue);
 
-            if( distanceToTarget > stop_radius) {
-                float actual_speed = speed;
+            if( distanciaObj > radioParo) {
+                float velocidadActual = velMaxima;
 
-                if (distanceToTarget < slow_radius) {
-                    actual_speed = speed * (distanceToTarget / slow_radius);
+                if (distanciaObj < radioLento) {
+                    velocidadActual = velMaxima * (distanciaObj / radioLento);
                 }
-                direccion = direccion.normalized * actual_speed;
-                this.transform.Translate(direccion.x * Time.deltaTime, direccion.y * Time.deltaTime, 0.0f, Space.World);
+                direccion = direccion.normalized * velocidadActual;
+                GetComponent<Rigidbody2D>().velocity = direccion;
+                //this.transform.Translate(direccion.x * Time.deltaTime, direccion.y * Time.deltaTime, 0.0f, Space.World);
 
 
+            }
+            else
+            {
+                GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             }
         }
     }

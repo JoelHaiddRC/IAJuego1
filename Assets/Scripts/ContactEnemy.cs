@@ -31,7 +31,7 @@ public class ContactEnemy : Enemy
         waypointActual = 0;
     }
 
-    //Método tomado de WaypointFollower del laboratorio y adaptado al 2D 
+    //Mï¿½todo tomado de WaypointFollower del laboratorio y adaptado al 2D 
     void Seek(Vector3 objetivo)
     {
         Vector2 velocidadDeseada = (objetivo - transform.position).normalized * velMaxima;
@@ -47,16 +47,16 @@ public class ContactEnemy : Enemy
 
     private void FixedUpdate()
     {
-        //Si el jugador no está en el cuarto o hay pausa no se mueve
+        //Si el jugador no estï¿½ en el cuarto o hay pausa no se mueve
         if (!isVisible || currentState == EnemyState.PAUSED)
             return;
-        if (isAlive && canChange) //Temporal, la condición para patrullar puede cambiar
+        if (isAlive && canChange) //Temporal, la condiciï¿½n para patrullar puede cambiar
             Seek(waypointPosition);
     }
 
     void Update()
     {
-        //Si el jugador no está en el cuarto no actualiza nada
+        //Si el jugador no estï¿½ en el cuarto no actualiza nada
         if (!isVisible)
             return;
         isAlive = !lifeSystem.isDead;
@@ -66,7 +66,7 @@ public class ContactEnemy : Enemy
             return;
         float distancia = Vector3.Distance(transform.position, waypointPosition);
 
-        //Actualiza la dirección en la que se mueve para el animator
+        //Actualiza la direcciï¿½n en la que se mueve para el animator
         animator.SetFloat("MoveX", velocidad.normalized.x);
         animator.SetFloat("MoveY", velocidad.normalized.y);
 

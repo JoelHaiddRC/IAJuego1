@@ -5,23 +5,38 @@ using UnityEngine;
 public class FleeBehavior : SteeringBehavior
 {
     
-    [SerializeField] private float speed;
-    [SerializeField] private float safe_distance; 
+    [SerializeField] private float distanciaSegura; 
 
-
+    /**
+     * Realiza el movimiento de Flee mejordado.
+     * Se modifica la velocidad del objeto para tener un movimiento basado en fisica.
+     */
     public override void Execute()
     {
-        Debug.Log("FleeBehavior");
-        Vector2 postition = new Vector2(transform.position.x, transform.position.y);
-        Vector2 objetivo_pos = new Vector2(objetivo.position.x, objetivo.position.y);
-        Vector2 direccion = postition - objetivo_pos;
-        //direccion.z = 0;
-        //Debug.DrawRay(this.transform.position, direccion, Color.yellow);
-        if (direccion.magnitude < safe_distance){
-            direccion = direccion.normalized * speed;
-            //Vector3 velocidadDeseada = direccion;
-            this.transform.Translate(direccion.x * Time.deltaTime, direccion.y * Time.deltaTime, 0.0f, Space.World);
+        Vector2 posicion = new Vector2(transform.position.x, transform.position.y);
+        Vector2 posicionObj = new Vector2(objetivo.position.x, objetivo.position.y);
+        Vector2 direccion = posicion - posicionObj;
+
+        if (direccion.magnitude < distanciaSegura){
+
+            Vector2 velocidadMax = direccion.normalized * velMaxima;
+
+            Vector2 velocidadActual = GetComponent<Rigidbody2D>().velocity;
+
+            Vector2 diffVelocidad = velocidadMax - velocidadActual;
+
+            velocidadActual += (diffVelocidad * Time.deltaTime);
+            velocidadActual = Vector2.ClampMagnitude(velocidadActual, velMaxima);
+
+            // Comentar la primera linea y descomentar la segunda para usar translate
+            GetComponent<Rigidbody2D>().velocity = velocidadActual;
+            //this.transform.Translate(velocidadActual.x , velocidadActual.y, 0.0f, Space.World);
         }
+        else
+        {
+            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        }
+
     }
     
 }

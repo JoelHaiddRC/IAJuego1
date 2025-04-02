@@ -12,8 +12,17 @@ public class Test : MonoBehaviour
         steeringBehavior = GetComponent<SteeringBehavior>();
     }
 
-    // Update is called once per frame
+    // Para cuando se usa Translate
     void Update()
+    {
+        if (steeringBehavior != null)
+        {
+            //steeringBehavior.Execute();
+        }
+    }
+
+    // Para cuando modificamos la velocidad del Rigidbody2D
+    void FixedUpdate()
     {
         if (steeringBehavior != null)
         {

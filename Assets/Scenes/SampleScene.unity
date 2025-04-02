@@ -1076,6 +1076,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6920102719123954260, guid: 5a0a704197ebcae409ee67bcf87bb5a6, type: 3}
   m_PrefabInstance: {fileID: 6920102718795467528}
   m_PrefabAsset: {fileID: 0}
+--- !u!50 &362664289 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 6920102719123954258, guid: 5a0a704197ebcae409ee67bcf87bb5a6, type: 3}
+  m_PrefabInstance: {fileID: 6920102718795467528}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &384691462
 GameObject:
   m_ObjectHideFlags: 0
@@ -2629,7 +2634,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.42043412, y: 9.581537, z: -10}
+  m_LocalPosition: {x: -0.37, y: -0.77, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3896,7 +3901,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   steeringBehavior: {fileID: 0}
---- !u!114 &1150660909
+--- !u!114 &1150660916
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3905,13 +3910,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 970444291}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19b03aadf14c84c4484782bc884df3b0, type: 3}
+  m_Script: {fileID: 11500000, guid: 3fa1ee1992c174f4fa46abf272be8b8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   objetivo: {fileID: 362664284}
-  speed: 2
-  slow_radius: 3
-  stop_radius: 0.5
+  velMaxima: 2
+  rbObjetivo: {fileID: 362664289}
+  prediccion: 2.5
+  distanciaSegura: 5
 --- !u!1 &1189919975
 GameObject:
   m_ObjectHideFlags: 0
