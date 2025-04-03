@@ -12,6 +12,12 @@ public class RoomTransition : MonoBehaviour
     public bool canSpawnEnemies;
     public bool isPlayerHere;
 
+    private void Start()
+    {
+        if(!transform.name.Contains("Initial")) //El cuarto inicial siempre estará prendido
+            off_screen.SetActive(true);
+    }
+
     public void PlayerTeleported(bool value)
     {
         isPlayerHere = value;

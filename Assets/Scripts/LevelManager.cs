@@ -5,15 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-    private static LevelManager instance;
     private Player player;
-    private LifeSystem playerLife;
     private bool gameOver;
+    public GameObject winScreen;
+    public Teleporter door;
 
     private void Start()
     {
         player = GameObject.FindObjectOfType<Player>();
-        playerLife = player.gameObject.GetComponent<LifeSystem>();
     }
 
     public void Reset()
@@ -37,5 +36,30 @@ public class LevelManager : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void GameWin()
+    {
+        winScreen.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    public void UnlockDoor()
+    {
+        door.isClosed = false;
+        door.openDoor();
+    }
+
+    public void UnlockAllDoors()
+    {
+        Teleporter[] doors = GameObject.FindObjectsOfType<Teleporter>();
+        for(int i = 0; i < doors.Length; i++)
+        {
+            doors[i].isClosed = false;
+            doors[i].openDoor();
+        }
+        {
+
+        }
     }
 }

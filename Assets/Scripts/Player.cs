@@ -34,8 +34,11 @@ public class Player : MonoBehaviour
     public float knockback;
     public GameObject sword; //El colisionador del ataque cuerpo a cuerpo
     public bool canAttack; //Variable para el tiempo de recarga del arma
-    private bool attackAvailable; //Indica si ya se desbloqueo el ataque
+    private bool attackAvailable; //Indica si ya se desbloqueo el ataque cuerpo a cuerpo
+    private bool shootAvailable; //Indica si ya se desbloqueo el ataque a distancia
     public bool swordChar; //True = ataque cuerpo a cuerpo, False = ataque a distancia
+
+    LevelManager levelManager;
 
     //Variables de movimiento
     public float walkSpeed; //Velocidad máxima
@@ -68,8 +71,9 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
 
         currentState = PlayerState.WALK;
-        canChange = true;
-        attackAvailable = true;
+        canChange = false;
+        attackAvailable = false;
+        shootAvailable = false;
 
         sword.SetActive(false);
 
@@ -96,6 +100,8 @@ public class Player : MonoBehaviour
                 "its initial value will be set to 0.1");
             knockback = 0.1f;
         }
+
+        levelManager = GameObject.FindObjectOfType<LevelManager>();
     }
 
     void Update()
@@ -155,6 +161,35 @@ public class Player : MonoBehaviour
         {
             lifeSystem.DamageObject();
         }
+
+        if (collision.transform.name.Contains("PowerUp"))
+        {
+            if(!attackAvailable)
+            {
+                attackAvailable = true;
+                levelManager.UnlockDoor();
+            }
+            else if (!shootAvailable)
+            {
+                shootAvailable = true;
+                canChange = true;
+                levelManager.UnlockAllDoors();
+            }
+            StartCoroutine("PowerUpAnim");
+            Destroy(collision.transform.gameObject);
+        }
+    }
+
+    private IEnumerator PowerUpAnim()
+    {
+        if (!shootAvailable)
+            animator.SetTrigger("PowerUp1");
+        else
+            animator.SetTrigger("PowerUp2");
+        currentState = PlayerState.PAUSED;
+        yield return new WaitForSeconds(2f);
+        currentState = PlayerState.WALK;
+
     }
 
 

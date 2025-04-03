@@ -13,17 +13,18 @@ public class Teleporter : MonoBehaviour
     private SpriteRenderer sprite;
     private BoxCollider2D box;
     public Transform spawnPoint;
+    LevelManager level;
+    public bool isFinal;
 
     private void Start()
     {
         if (exit == null)
-            Debug.LogWarning("Warning, teleporter: " + name + "doesn't have any exit");
-
-        if (entryRoom == null)
-            entryRoom = GetComponentInParent<RoomTransition>();
-
-        exitPoint = exit.spawnPoint.position;
-        exitRoom = exit.entryRoom;
+            Debug.LogWarning("Warning, teleporter: " + name + " doesn't have any exit");
+        else
+        {
+            exitPoint = exit.spawnPoint.position;
+            exitRoom = exit.entryRoom;
+        }
 
         if (exitRoom == null || entryRoom == null)
             Debug.LogWarning("Warning, teleporter: " + name + "didn't find RoomTransition scripts");
@@ -31,6 +32,7 @@ public class Teleporter : MonoBehaviour
         player = GameObject.FindObjectOfType<Player>();
         sprite = transform.GetComponent<SpriteRenderer>();
         box = transform.GetComponent<BoxCollider2D>();
+        level = GameObject.FindObjectOfType<LevelManager>();
 
         if (!isClosed)
             openDoor();
@@ -40,7 +42,6 @@ public class Teleporter : MonoBehaviour
     {
         if (isClosed)
             return;
-        Debug.Log("OpenDoor");
         sprite.color = Color.clear;
         box.isTrigger = true;
 
@@ -50,7 +51,10 @@ public class Teleporter : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            StartCoroutine("Teleporting");
+            if (!isFinal)
+                StartCoroutine("Teleporting");
+            else
+                level.GameWin();
         }
     }
 
