@@ -11,8 +11,8 @@ public enum PlayerState
     PAUSED
 }
 
-//Orientación del jugador para animaciones y dirección de ataque
-//Se definen 8 pero los diagonales se cambiarán a uno de los primeros 4
+//Orientaciï¿½n del jugador para animaciones y direcciï¿½n de ataque
+//Se definen 8 pero los diagonales se cambiarï¿½n a uno de los primeros 4
 public enum Orientation
 {
     RIGHT,
@@ -35,18 +35,18 @@ public class Player : MonoBehaviour
     public GameObject sword; //El colisionador del ataque cuerpo a cuerpo
     public bool canAttack; //Variable para el tiempo de recarga del arma
     private bool attackAvailable; //Indica si ya se desbloqueo el ataque cuerpo a cuerpo
-    private bool shootAvailable; //Indica si ya se desbloqueo el ataque a distancia
+    public bool shootAvailable; //Indica si ya se desbloqueo el ataque a distancia
     public bool swordChar; //True = ataque cuerpo a cuerpo, False = ataque a distancia
 
     LevelManager levelManager;
 
     //Variables de movimiento
-    public float walkSpeed; //Velocidad máxima
+    public float walkSpeed; //Velocidad mï¿½xima
     public bool isMoving;
     public Orientation orientation;
     Vector2 moveSpeed; //Velocidad actual
-    Vector2 facingDir; //Orientación actual del jugador
-    Vector2 lastDirection; //Última orientación registrada 
+    Vector2 facingDir; //Orientaciï¿½n actual del jugador
+    Vector2 lastDirection; //ï¿½ltima orientaciï¿½n registrada 
     Rigidbody2D rb;
     BoxCollider2D box;
 
@@ -55,7 +55,7 @@ public class Player : MonoBehaviour
     public PlayerState currentState;
     LifeSystem lifeSystem;
 
-    //Variables de animación
+    //Variables de animaciï¿½n
     private Animator animator;
     public bool canChange;
 
@@ -231,8 +231,8 @@ public class Player : MonoBehaviour
         currentState = PlayerState.WALK;
     }
 
-    //Indica hacia dónde se movió por última vez el jugador
-    //para mostrar la animación correcta
+    //Indica hacia dï¿½nde se moviï¿½ por ï¿½ltima vez el jugador
+    //para mostrar la animaciï¿½n correcta
     private void Movement()
     {
 
@@ -250,7 +250,7 @@ public class Player : MonoBehaviour
             case Orientation.DOWN:
                 lastDirection = facingDir = Vector2.down;
                 break;
-            //Los movimiento diagonales serán considerados como derecha o izquierda
+            //Los movimiento diagonales serï¿½n considerados como derecha o izquierda
             case Orientation.UPRIGHT:
                 lastDirection = facingDir = Vector2.right;
                 break;
@@ -265,7 +265,7 @@ public class Player : MonoBehaviour
                 break;
         }
 
-        //Variables para animación
+        //Variables para animaciï¿½n
         animator.SetFloat("MoveX", moveSpeed.x);
         animator.SetFloat("MoveY", moveSpeed.y);
         animator.SetFloat("LastX", lastDirection.x);
@@ -277,7 +277,7 @@ public class Player : MonoBehaviour
             animator.SetBool("IsMoving", false);
     }
 
-    //Indica la orientación en la que mira el jugador según su movimiento actual
+    //Indica la orientaciï¿½n en la que mira el jugador segï¿½n su movimiento actual
     private void setOrientation()
     {
         if (moveSpeed.x > 0)
@@ -307,7 +307,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    //Gira la colisión de la espada hacia la dirección en la que mira el jugador
+    //Gira la colisiï¿½n de la espada hacia la direcciï¿½n en la que mira el jugador
     private void swordPosition()
     {
         switch (orientation)
@@ -340,7 +340,7 @@ public class Player : MonoBehaviour
 
     }
 
-    //Dibuja una línea en la dirección en la que ve el jugador
+    //Dibuja una lï¿½nea en la direcciï¿½n en la que ve el jugador
     private void OnDrawGizmos()
     {
         Vector3 direction = new Vector3(facingDir.x * 2, facingDir.y * 2, 0);
@@ -395,7 +395,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            //Si el jugador es dañado puede ser que se haya empujado
+            //Si el jugador es daï¿½ado puede ser que se haya empujado
             if (currentState != PlayerState.DAMAGED)
                 rb.velocity = Vector2.zero;
         }
