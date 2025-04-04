@@ -34,8 +34,18 @@ public class Torreta : MonoBehaviour
         Func<bool> enemigoEnRango= () => Vector3.Distance(transform.position, objetivo.position) <= distanciaDeteccion;
         Func<bool> enemigoFueraDeRango = () => Vector3.Distance(transform.position, objetivo.position) > distanciaDeteccion;
 
-        Func<bool> apuntadoObjetivo = () =>  true;
-        Func<bool> noApuntadoObjetivo = () =>  false;
+        Func<bool> apuntadoObjetivo = () => {
+            float diff = Vector2.Angle(transform.position, objetivo.position);
+            Debug.Log(diff + " " + transform.name);
+            return diff < rotacionLimite; 
+        };
+        
+        Func<bool> noApuntadoObjetivo = () =>
+        {
+            float diff = Vector2.Angle(transform.position, objetivo.position);
+            Debug.Log(diff + " " + transform.name);
+            return diff > rotacionLimite;
+        };
 
         
 
@@ -43,14 +53,16 @@ public class Torreta : MonoBehaviour
         //Func<bool> enemigoDebil = () => Vector3.Distance(transform.position, objetivo.position) < distanciaDeteccion && jugador.GetComponent<Player>().attackAvailable;
         //Func<bool> enemigoFuerte = () => Vector3.Distance(transform.position, objetivo.position) < distanciaDeteccion && !jugador.GetComponent<Player>().attackAvailable;
         //Func<bool> enemigoFueraDeRango = () => Vector3.Distance(transform.position, objetivo.position) > distanciaDeteccion;
+        
         _maquinaEstados.AgregarTransicion(comportamientoIdle, comportamientoRotar, enemigoEnRango);
         _maquinaEstados.AgregarTransicion(comportamientoRotar, ataqueDistancia, apuntadoObjetivo);
         _maquinaEstados.AgregarTransicion(ataqueDistancia, comportamientoRotar, noApuntadoObjetivo);
 
         //_maquinaEstados.AgregarTransicion(comportamientoPatrullar, comportamientoAtacar, enemigoDebil);
         //_maquinaEstados.AgregarTransicion(comportamientoPatrullar, comportamientoHuir, enemigoFuerte);
+        
         _maquinaEstados.AddAnyTransition(comportamientoIdle, enemigoFueraDeRango);
-        _maquinaEstados.AsignarEstado(comportamientoIdle);
+        _maquinaEstados.AsignarEstado(comportamientoRotar);
         
     }
 

@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 371399480125837232}
   m_LocalRotation: {x: 0.01644218, y: -0, z: -0, w: 0.9998648}
-  m_LocalPosition: {x: 0, y: -2, z: 0.0000000039198462}
+  m_LocalPosition: {x: 0, y: 0.32, z: 0.0000000039198462}
   m_LocalScale: {x: 1, y: 0.4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -98,10 +98,10 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.017029762, y: 0}
+  m_Offset: {x: -0.017029762, y: 5.11555}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0}
     oldSize: {x: 1, y: 10}
     newSize: {x: 1, y: 10}
     adaptiveTilingThreshold: 0.5
@@ -109,7 +109,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.28473568, y: 10}
+  m_Size: {x: 0.28473568, y: 10.071545}
   m_EdgeRadius: 0
 --- !u!1 &6988783247622758076
 GameObject:
@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 8689670355793443894}
   - component: {fileID: 8354793895609572468}
   - component: {fileID: 644034977741238658}
+  - component: {fileID: 1227172479}
   m_Layer: 0
   m_Name: RayEnemy
   m_TagString: Untagged
@@ -235,3 +236,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1227172479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6988783247622758076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab3794fc542ea9c459fb1846360d1006, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objetivo: {fileID: 0}
+  velocidadAngularMaxima: 35
+  radioFreno: 0
+  rotacionLimite: 0
+  jugador: {fileID: 0}
+  distanciaDeteccion: 3

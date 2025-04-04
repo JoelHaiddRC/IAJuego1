@@ -72,26 +72,30 @@ public class Rotar : Estado
         if (objetivo != null) {
             Vector2 posicion = new Vector2(personaje.position.x, personaje.position.y);
             Vector2 posicionObj = new Vector2(objetivo.position.x, objetivo.position.y);
-            
-            Vector2 direccion =  posicion - posicionObj;
-            if (direccion.sqrMagnitude > 0.001f) {
-                float anguloObjetivo = Mathf.Atan2(direccion.y, direccion.x) * Mathf.Rad2Deg;
-                float anguloActual = personaje.eulerAngles.z + 270f;
-                Debug.Log( anguloObjetivo);
-                float anguloDiferencia = Mathf.DeltaAngle(anguloActual, anguloObjetivo);
-                
-                if (Mathf.Abs(anguloDiferencia) > rotacionLimite) {
-                    float velocidadAngular = velocidadAngularMaxima;
-                    if (Mathf.Abs(anguloDiferencia) < radioFreno){
-                        velocidadAngular = Mathf.Abs(anguloDiferencia) / radioFreno;
-                    }
-                    float nuevoAngulo = Mathf.MoveTowardsAngle(anguloActual, anguloObjetivo, velocidadAngular * Time.deltaTime);
-                    Quaternion rotacionObjetivo = Quaternion.Euler(0, 0, anguloObjetivo);
-                    personaje.rotation = Quaternion.RotateTowards(personaje.rotation, rotacionObjetivo, velocidadAngularMaxima * Time.deltaTime);
-                    //personaje.rotation = Quaternion.Euler(0, 0, nuevoAngulo);
 
+            Vector2 direccion = posicion - posicionObj;
+
+            float anguloDiferencia = Mathf.Atan2(direccion.y, direccion.x) * Mathf.Rad2Deg + 90f;
+            float velocidadAngular = velocidadAngularMaxima;
+
+            float nuevoAngulo = Mathf.MoveTowardsAngle(personaje.eulerAngles.z, anguloDiferencia, velocidadAngular * Time.deltaTime);
+
+            personaje.rotation = Quaternion.Euler(0, 0, nuevoAngulo);
+
+            /*if (direccion.sqrMagnitude > 0.001f)
+            {
+                if (anguloDiferencia > rotacionLimite)
+                {
+                    float velocidadAngular = velocidadAngularMaxima;
+                    if (anguloDiferencia < radioFreno)
+                    {
+                        velocidadAngular = anguloDiferencia / radioFreno;
+                    }
+                    personaje.rotation = Quaternion.Euler(0, 0, velocidadAngular * Time.deltaTime);
+                    //Debug.DrawRay(transform.position, transform.forward * 2f, Color.yellow);
+                    //Debug.DrawRay(transform.position, direccion.normalized * 2f, Color.green);
                 }
-            }
+            }*/
         }
     }
 

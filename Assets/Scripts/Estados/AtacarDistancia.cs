@@ -13,6 +13,7 @@ public class AtacarDistancia : Estado
 
     private Animator animacionPersonaje;
 
+
     public AtacarDistancia(Transform _objetivo, Transform _personaje, Shooter _disp, Animator animacion)
     {
         disparos = _disp;
@@ -35,9 +36,12 @@ public class AtacarDistancia : Estado
         Vector2 posicionObj = new Vector2(objetivo.position.x, objetivo.position.y);
         Vector2 direccion = posicionObj - posicion;
 
-        disparos.Shoot(direccion);
+        disparos.Shoot(direccion.normalized);
 
     }
+
+
+    
 
     
     public void OnEnter()
