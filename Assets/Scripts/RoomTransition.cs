@@ -14,8 +14,14 @@ public class RoomTransition : MonoBehaviour
 
     private void Start()
     {
-        if(!transform.name.Contains("Initial")) //El cuarto inicial siempre estará prendido
-            off_screen.SetActive(true);
+        if (!transform.name.Contains("Initial")) //Todos los cuartos menos el inicial estarán apagados
+        {
+            TurnOffRoom();
+        }
+        else
+        {
+            TurnOnRoom();
+        }
     }
 
     public void PlayerTeleported(bool value)
@@ -23,20 +29,32 @@ public class RoomTransition : MonoBehaviour
         isPlayerHere = value;
     }
 
+    void TurnOnRoom()
+    {
+        VirtualCam.Priority = 20;
+        off_screen.SetActive(false);
+        StartCoroutine("Wait");
+    }
+
+    void TurnOffRoom() {
+        off_screen.SetActive(true);
+        roomObjects.SetActive(false);
+        VirtualCam.Priority = 10;
+        canSpawnEnemies = false;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player") && !collision.isTrigger
             && isPlayerHere)
         {
-            VirtualCam.Priority = 20;
-            off_screen.SetActive(false);
-            StartCoroutine("Wait");
+            TurnOnRoom();
         }
     }
 
     IEnumerator Wait()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         roomObjects.SetActive(true);
         canSpawnEnemies = true;
     }
@@ -46,10 +64,7 @@ public class RoomTransition : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") && !collision.isTrigger
             && !isPlayerHere)
         {
-            off_screen.SetActive(true);
-            roomObjects.SetActive(false);
-            VirtualCam.Priority = 10;
-            canSpawnEnemies = false;
+            TurnOffRoom();
         }
     }
 }

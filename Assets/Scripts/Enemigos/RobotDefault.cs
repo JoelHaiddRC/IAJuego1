@@ -34,8 +34,9 @@ public class RobotDefault : MonoBehaviour
 
     private void Awake()
     {
+        jugador = GameObject.FindObjectOfType<Player>().gameObject;
+        objetivo = jugador.transform;
 
-        
         _maquinaEstados = new StateMachine();
         var animator = GetComponent<Animator>();
 
@@ -63,7 +64,6 @@ public class RobotDefault : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame

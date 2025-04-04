@@ -19,7 +19,8 @@ public class Orbe : MonoBehaviour
     
     private void Awake()
     {
-
+        jugador = GameObject.FindObjectOfType<Player>().gameObject;
+        objetivo = jugador.transform;
         _maquinaEstados = new StateMachine();
         var animator = GetComponent<Animator>();
 

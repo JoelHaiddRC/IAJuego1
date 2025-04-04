@@ -165,7 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objetivo: {fileID: 0}
   velocidadAngularMaxima: 90
-  radioFreno: 0
-  rotacionLimite: 0
+  radioFreno: 20
+  rotacionLimite: 20
   jugador: {fileID: 0}
   distanciaDeteccion: 3
