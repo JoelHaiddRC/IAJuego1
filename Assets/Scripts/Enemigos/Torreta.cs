@@ -36,16 +36,14 @@ public class Torreta : MonoBehaviour
         Func<bool> enemigoFueraDeRango = () => Vector3.Distance(transform.position, objetivo.position) > distanciaDeteccion;
 
         Func<bool> apuntadoObjetivo = () => {
-            float diff = Vector2.Angle(transform.position, objetivo.position);
-            Debug.Log(diff + " " + transform.name);
-            return diff < rotacionLimite; 
+            float diff = Vector3.Angle(transform.up, objetivo.position - transform.position);
+            return diff <= rotacionLimite; 
         };
         
         Func<bool> noApuntadoObjetivo = () =>
         {
-            float diff = Vector2.Angle(transform.position, objetivo.position);
-            Debug.Log(diff + " " + transform.name);
-            return diff > rotacionLimite;
+            float diff = Vector3.Angle(transform.up, objetivo.position - transform.position);
+            return diff > rotacionLimite; 
         };
 
         

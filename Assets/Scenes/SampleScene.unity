@@ -1179,7 +1179,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -200.00005, y: 65}
+  m_AnchoredPosition: {x: -200.00006, y: 65}
   m_SizeDelta: {x: 200, y: 100.07}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &101726667
@@ -26181,7 +26181,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.06872475, y: -0.77066374, z: -10}
+  m_LocalPosition: {x: -1.1044141, y: -0.7332969, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -72512,6 +72512,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 546345581}
     m_Modifications:
+    - target: {fileID: 562318710, guid: 4f491c5c41578a74cb99142d44924ac4, type: 3}
+      propertyPath: waitTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 562318711, guid: 4f491c5c41578a74cb99142d44924ac4, type: 3}
       propertyPath: jugador
       value: 
@@ -72520,6 +72524,14 @@ PrefabInstance:
       propertyPath: objetivo
       value: 
       objectReference: {fileID: 362664284}
+    - target: {fileID: 562318711, guid: 4f491c5c41578a74cb99142d44924ac4, type: 3}
+      propertyPath: rotacionLimite
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 562318711, guid: 4f491c5c41578a74cb99142d44924ac4, type: 3}
+      propertyPath: velocidadAngularMaxima
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 2061378071160002887, guid: 4f491c5c41578a74cb99142d44924ac4, type: 3}
       propertyPath: m_RootOrder
       value: 2
