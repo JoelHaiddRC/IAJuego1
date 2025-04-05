@@ -209,11 +209,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e34cc27ddec411e4e964f061f86ed939, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocidadMax: 3
+  velocidadMax: 5
   distanciaSegura: 3
   distanciaDeteccion: 3
   distanciaParo: 0.5
-  waypoints: []
+  waypoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   distanciaCambio: 1
   jugador: {fileID: 0}
   objetivo: {fileID: 0}

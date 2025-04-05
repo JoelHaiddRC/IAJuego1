@@ -4,57 +4,110 @@ using UnityEngine;
 
 public class Railes : MonoBehaviour
 {
-    public Transform[] waypoints;
-    private int waypointActual;
-    private Vector3 waypointPosition;
-    public float velocidad;
     float velocidadActual;
     public float tiempoAtaque;
     public float tiempoRecarga;
+    public float tiempoRayo;
     bool canAttack;
+    bool canMove;
     Animator animator;
+    public Vector3 posicionInicial;
+    GameObject ray;
+
+    [Header("PathFollowing")]
+    public float velocidadPath;
+    public Transform[] waypoints;
+    private int waypointActual;
+    private Vector3 waypointPosition;
+
+    [Header("Pursue")]
+    public float velocidadPursue;
+    public float prediccion;
+    Player jugador;
+    Rigidbody2D rbObjetivo;
+    Rigidbody2D rb;
+
+    public bool hardMode;
     void Start()
     {
-        if (waypoints.Length < 1)
+        if (waypoints.Length < 2)
         {
             Debug.LogWarning("Waypoints in: " + transform.name + " not defined");
             return;
         }
-        waypointPosition = waypoints[0].position;
-        waypointActual = 0;
-        velocidadActual = velocidad;
+        hardMode = false;
+        waypointPosition = waypoints[1].position;
+        waypointActual = 1;
+        velocidadActual = velocidadPath;
         animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+        jugador = GameObject.FindObjectOfType<Player>();
+        ray = transform.GetChild(0).gameObject;
+        ray.SetActive(false);
+        rbObjetivo = jugador.rb;
         canAttack = true;
+        canMove = true;
     }
 
     private void FixedUpdate()
     {
-       transform.position = Vector2.MoveTowards(transform.position, waypointPosition, velocidadActual * Time.deltaTime);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //Si no hay waypoints no se mueve
-        if (waypoints.Length < 1 || waypointActual < 0)
+        if (!canMove)
             return;
-        float distancia = Vector3.Distance(transform.position, waypointPosition);
-
-        //Parte de la clase WaypointFollower del laboratorio
-        if (distancia < .1f)
+        if (!hardMode)
         {
-            waypointActual = (waypointActual + 1) % waypoints.Length;
-            waypointPosition = waypoints[waypointActual].transform.position;
-            return;
+            rb.velocity = Vector2.zero;
+            transform.position = Vector2.MoveTowards(transform.position, waypointPosition, velocidadActual * Time.deltaTime);
+        }
+        else
+        {
+            Pursue();
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    void Pursue()
+    {
+        Vector2 posicion = new Vector2(transform.position.x, transform.position.y);
+        Vector2 posicionObj = new Vector2(jugador.transform.position.x, jugador.transform.position.y);
+
+        posicionObj += rbObjetivo.velocity * prediccion;
+
+        Vector2 direccion = posicionObj - posicion;
+        Vector2 velocidadMax = direccion.normalized * velocidadPursue;
+        Vector2 velocidadActual = rb.velocity;
+        Vector2 diffVelocidad = velocidadMax - velocidadActual;
+
+        velocidadActual += (diffVelocidad * Time.deltaTime);
+        velocidadActual = Vector2.ClampMagnitude(velocidadActual, velocidadPursue);
+        rb.velocity = velocidadActual;
+    }
+        
+
+        void Update()
+    {
+        hardMode = jugador.shootAvailable;
+        animator.SetBool("Free", hardMode);
+        if (!hardMode)
+        {
+            if (waypoints.Length < 1 || waypointActual < 0)
+                return;
+            float distancia = Vector3.Distance(transform.position, waypointPosition);
+
+            if (distancia < .1f)
+            {
+                waypointActual = (waypointActual + 1) % waypoints.Length;
+                waypointPosition = waypoints[waypointActual].transform.position;
+                return;
+            }
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.transform.tag == "Player" && canAttack)
         {
             canAttack = false;
-            velocidadActual = 0;
+            canMove = false;
+            rb.velocity = Vector2.zero;
             StartCoroutine("Attack");
         }
     }
@@ -64,12 +117,32 @@ public class Railes : MonoBehaviour
         animator.SetTrigger("Charge");
         yield return new WaitForSeconds(tiempoAtaque);
         animator.SetTrigger("Attack");
-        gameObject.tag = "Enemies";
-        yield return new WaitForSeconds(0.5f);
-        animator.SetTrigger("Patrol");
-        gameObject.tag = "Untagged";
-        velocidadActual = velocidad;
+        ray.SetActive(true);
+        yield return new WaitForSeconds(tiempoRayo);
+        ray.SetActive(false);
         yield return new WaitForSeconds(tiempoRecarga);
+        animator.SetTrigger("Patrol");
         canAttack = true;
+        canMove = true;
+    }
+
+    private void OnEnable()
+    {
+        waypointPosition = waypoints[1].position;
+        waypointActual = 1;
+        if (!hardMode)
+            velocidadActual = velocidadPath;
+        else
+            velocidadActual = velocidadPursue;
+        canAttack = true;
+        canMove = true;
+        jugador = GameObject.FindObjectOfType<Player>();
+        rbObjetivo = jugador.rb;
+    }
+
+    private void OnDisable()
+    {
+        transform.position = waypoints[0].position;
+        ray.SetActive(false);
     }
 }

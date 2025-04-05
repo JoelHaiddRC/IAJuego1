@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
     Vector2 moveSpeed; //Velocidad actual
     Vector2 facingDir; //Orientaci�n actual del jugador
     Vector2 lastDirection; //�ltima orientaci�n registrada 
-    Rigidbody2D rb;
+    public Rigidbody2D rb;
     BoxCollider2D box;
 
     //Variables de vida

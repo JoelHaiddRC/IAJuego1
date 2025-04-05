@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 371399480125837232}
   m_LocalRotation: {x: 0.01644218, y: -0, z: -0, w: 0.9998648}
   m_LocalPosition: {x: 0, y: 0.32, z: 0.0000000039198462}
-  m_LocalScale: {x: 1, y: 0.4, z: 1}
+  m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3402764616844553687}
@@ -249,8 +249,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objetivo: {fileID: 0}
-  velocidadAngularMaxima: 35
+  velocidadAngularMaxima: 25
   radioFreno: 5
   rotacionLimite: 3
   jugador: {fileID: 0}
-  distanciaDeteccion: 3
+  distanciaDeteccion: 5
