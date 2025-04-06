@@ -27,7 +27,7 @@ public class Teleporter : MonoBehaviour
         }
 
         if (exitRoom == null || entryRoom == null)
-            Debug.LogWarning("Warning, teleporter: " + name + "didn't find RoomTransition scripts");
+            Debug.LogWarning("Warning, teleporter: " + name + " didn't find RoomTransition scripts");
 
         player = GameObject.FindObjectOfType<Player>();
         sprite = transform.GetComponent<SpriteRenderer>();

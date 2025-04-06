@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 //Clase para objetos con sistema de vida
@@ -16,6 +17,18 @@ public class LifeSystem : MonoBehaviour
     public bool isDamaged { get; private set; }
     public bool isDead { get; private set; }
 
+    public bool affectedByProjectiles; //Indica si es posible dañarlo con proyectiles
+    public bool affectedByMelee; //Indica si es posible dañarlo con ataques cuerpo a cuerpo
+    public bool canBeKnockbacked;
+
+    LevelManager levelManager;
+
+    private void Start()
+    {
+        levelManager = GameObject.FindObjectOfType<LevelManager>();
+        resetState();
+    }
+
     //Método para resetar el estado del objeto
     public void resetState()
     {
@@ -26,12 +39,37 @@ public class LifeSystem : MonoBehaviour
         life = maxLife;
     }
 
-    //Daña el objeto y le baja un punto de vida
-    //Puede modificarse con un parámetro para variar el daño
-    public void DamageObject()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (gameObject.tag == "Enemies" && collision.gameObject.name.Contains("Sword"))
+        {
+            DamageObject(0);
+            if (canBeKnockbacked)
+                KnockBack(collision.gameObject);
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (gameObject.tag == "Enemies" && collision.gameObject.name.Contains("Sword"))
+        {
+            DamageObject(0);
+            if (canBeKnockbacked)
+                KnockBack(collision.gameObject);
+        }
+    }
+
+    //Daña el objeto y le baja un punto de vida
+    //El parámetro indica si es un golpe cuerpo a cuerpo (0) o de proyectil (1)
+    public void DamageObject(int attackType)
+    {
+        if (attackType == 0 && !affectedByMelee)
+            return;
+        if (attackType == 1 && !affectedByProjectiles)
+            return;
+
         if (!isDamaged && life > 0)
         {
+            isDamaged = true;
             if (life > 1)
                 StartCoroutine("Damage");
             else if (life == 1)
@@ -39,13 +77,13 @@ public class LifeSystem : MonoBehaviour
         }
     }
 
-    //Cura el objeto subiendo un punto de vida (se puede modificar)
-    public void healObject()
+    //Cura el objeto subiendo x puntos de vida
+    //Si se sobrepasa la vida máxima se acota a la vida máxima
+    public void healObject(int x)
     {
-        if(life < maxLife)
-        {
-            life += 1;
-        }
+        life += x;
+        if (life > maxLife)
+            life = maxLife;
     }
 
     //Genera un empuje en la dirección opuesta en la que se encuentra el hitObject
@@ -57,11 +95,6 @@ public class LifeSystem : MonoBehaviour
         {
             transform.GetComponent<Player>().currentState = PlayerState.DAMAGED;
         }
-        if(transform.CompareTag("Enemies"))
-        {
-            transform.GetComponent<Enemy>().canChange = false;
-            transform.GetComponent<Enemy>().ChangeState(EnemyState.DAMAGED);
-        }
         Vector2 difference = transform.position - hitObject.transform.position;
         difference = difference.normalized * thrust;
 
@@ -69,12 +102,6 @@ public class LifeSystem : MonoBehaviour
         if (Physics2D.Raycast(transform.position, -difference, 1f, LayerMask.GetMask("Obstacles"))
             || hitObject.GetComponent<Projectile>())
         {
-            Debug.Log("Can't knockback");
-            if (transform.CompareTag("Enemies"))
-            {
-                rb.GetComponent<Enemy>().canChange = true;
-                rb.GetComponent<Enemy>().ChangeState(EnemyState.IDLE);
-            }
             if (transform.CompareTag("Player"))
             {
                 transform.GetComponent<Player>().currentState = PlayerState.WALK;
@@ -83,7 +110,6 @@ public class LifeSystem : MonoBehaviour
         }
         else
         {
-            Debug.Log("KNOCKBACK");
             rb.velocity = Vector2.zero;
             rb.AddForce(difference, ForceMode2D.Impulse);
             StartCoroutine(KnockWait(rb));
@@ -94,11 +120,6 @@ public class LifeSystem : MonoBehaviour
     {
         yield return new WaitForSeconds(thrustTime);
         rb.velocity = Vector2.zero;
-        if (transform.CompareTag("Enemies"))
-        {
-            rb.GetComponent<Enemy>().canChange = true;
-            rb.GetComponent<Enemy>().ChangeState(EnemyState.IDLE);
-        }
         if (transform.CompareTag("Player"))
         {
             transform.GetComponent<Player>().currentState = PlayerState.WALK;
@@ -109,9 +130,8 @@ public class LifeSystem : MonoBehaviour
     //Corutina para cuando se recibe daño pero no se muere
     private IEnumerator Damage()
     {   
-        isDamaged = true;
         int previousLayer = gameObject.layer;
-        gameObject.layer = 12; //Layer que no colisiona con nada para evitar daño continuo
+        gameObject.layer = 1; //Layer que no colisiona con nada para evitar daño continuo
         life--;
             //Hace parpadear el sprite 4 veces mientras dura su tiempo de invencibilidad
             for (int i = 0; i < 4; i++)
@@ -140,7 +160,15 @@ public class LifeSystem : MonoBehaviour
         damagedColor.a = 0.5f;
         sprite.color = damagedColor;
         yield return new WaitForSeconds(invencibleTime);
-        if(gameObject.tag != "Player")
+        if (gameObject.tag != "Player")
+        {
+            if(gameObject.name.Contains("Contact"))
+                levelManager.killedEnemy(0);
+            if (gameObject.name.Contains("Shoot"))
+                levelManager.killedEnemy(1);
+            if (gameObject.name.Contains("Ray"))
+                levelManager.killedEnemy(2);
             GameObject.Destroy(gameObject); //Los enemigos se destruyen al morir
+        }
     }
 }

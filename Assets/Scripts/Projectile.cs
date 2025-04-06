@@ -33,8 +33,10 @@ public class Projectile : MonoBehaviour
         if ((colTrans.CompareTag("Player") && !fromPlayer)
             || (colTrans.CompareTag("Enemies") && fromPlayer))
         {
+            if (colTrans.gameObject == null)
+                return;
             //Si es del jugador y colisionó con enemigo (o viceversa) baja el daño y se destruye
-            colTrans.gameObject.GetComponent<LifeSystem>().DamageObject();
+            colTrans.gameObject.GetComponent<LifeSystem>().DamageObject(1);
             Destroy(gameObject);
         }
 
@@ -53,7 +55,9 @@ public class Projectile : MonoBehaviour
         if ((colTrans.CompareTag("Player") && !fromPlayer)
             || (colTrans.CompareTag("Enemies") && fromPlayer))
         {
-            colTrans.gameObject.GetComponent<LifeSystem>().DamageObject();
+            if (colTrans.gameObject == null)
+                return;
+            colTrans.gameObject.GetComponent<LifeSystem>().DamageObject(1);
             Destroy(gameObject);
         }
 

@@ -154,6 +154,8 @@ MonoBehaviour:
   invencibleTime: 0.4
   thrust: 5
   thrustTime: 0.4
+  affectedByProjectiles: 1
+  affectedByMelee: 1
 --- !u!95 &5078420326150704579
 Animator:
   serializedVersion: 5

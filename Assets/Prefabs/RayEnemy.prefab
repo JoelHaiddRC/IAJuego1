@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 738887900230370058}
   - component: {fileID: 6397292408152829162}
   - component: {fileID: 789993905132017026}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ray
-  m_TagString: Untagged
+  m_TagString: Enemies
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,9 +124,11 @@ GameObject:
   - component: {fileID: 8354793895609572468}
   - component: {fileID: 644034977741238658}
   - component: {fileID: 1227172479}
-  m_Layer: 0
+  - component: {fileID: 5451086569575536519}
+  - component: {fileID: 8288793898569418481}
+  m_Layer: 6
   m_Name: RayEnemy
-  m_TagString: Untagged
+  m_TagString: Enemies
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -254,3 +256,43 @@ MonoBehaviour:
   rotacionLimite: 3
   jugador: {fileID: 0}
   distanciaDeteccion: 5
+--- !u!50 &5451086569575536519
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6988783247622758076}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &8288793898569418481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6988783247622758076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50d0bc8a1b21d1d4cb20a97c5938f6de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  life: 5
+  maxLife: 5
+  invencibleTime: 0.4
+  thrust: 0
+  thrustTime: 0
+  affectedByProjectiles: 1
+  affectedByMelee: 0

@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
     public float knockback;
     public GameObject sword; //El colisionador del ataque cuerpo a cuerpo
     public bool canAttack; //Variable para el tiempo de recarga del arma
-    private bool attackAvailable; //Indica si ya se desbloqueo el ataque cuerpo a cuerpo
+    public bool attackAvailable; //Indica si ya se desbloqueo el ataque cuerpo a cuerpo
     public bool shootAvailable; //Indica si ya se desbloqueo el ataque a distancia
     public bool swordChar; //True = ataque cuerpo a cuerpo, False = ataque a distancia
 
@@ -148,7 +148,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemies"))
         {
-            lifeSystem.DamageObject();
+            lifeSystem.DamageObject(0);
             lifeSystem.KnockBack(collision.gameObject);
         }
     }
@@ -159,7 +159,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemies")
             && box.IsTouching(collision))
         {
-            lifeSystem.DamageObject();
+            lifeSystem.DamageObject(0);
         }
 
         if (collision.transform.name.Contains("PowerUp"))
@@ -173,9 +173,9 @@ public class Player : MonoBehaviour
             {
                 shootAvailable = true;
                 canChange = true;
-                levelManager.UnlockAllDoors();
             }
             StartCoroutine("PowerUpAnim");
+            lifeSystem.healObject(lifeSystem.maxLife);
             Destroy(collision.transform.gameObject);
         }
     }

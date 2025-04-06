@@ -143,6 +143,6 @@ public class Railes : MonoBehaviour
     private void OnDisable()
     {
         transform.position = waypoints[0].position;
-        ray.SetActive(false);
+        //ray.SetActive(false);
     }
 }

@@ -32,7 +32,7 @@ public class Enemy : MonoBehaviour
         GameObject hit = collision.gameObject;
         if (hit != null && hit.CompareTag("PlayerAttack"))
         {
-            lifeSystem.DamageObject();
+            lifeSystem.DamageObject(0);
             if(canBeKnockbacked)
                 lifeSystem.KnockBack(hit);
         }
