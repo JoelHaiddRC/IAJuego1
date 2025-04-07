@@ -78353,6 +78353,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6920102719123954256, guid: 5a0a704197ebcae409ee67bcf87bb5a6, type: 3}
+      propertyPath: animatorRed
+      value: 
+      objectReference: {fileID: 9100000, guid: ef403a934c3a13a41ba48838cef15d29, type: 2}
+    - target: {fileID: 6920102719123954256, guid: 5a0a704197ebcae409ee67bcf87bb5a6, type: 3}
+      propertyPath: animatorOrange
+      value: 
+      objectReference: {fileID: 9100000, guid: f6a89b5d61d02824e9f917138c4ae38e, type: 2}
     - target: {fileID: 6920102719123954257, guid: 5a0a704197ebcae409ee67bcf87bb5a6, type: 3}
       propertyPath: life
       value: 5
@@ -78413,6 +78421,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6920102719123954263, guid: 5a0a704197ebcae409ee67bcf87bb5a6, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 3b638d5c7d3487e4b958d026a7ad99f9, type: 2}
     - target: {fileID: 6920102719123954271, guid: 5a0a704197ebcae409ee67bcf87bb5a6, type: 3}
       propertyPath: m_Name
       value: Player

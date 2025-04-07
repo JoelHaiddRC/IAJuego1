@@ -57,6 +57,8 @@ public class Player : MonoBehaviour
 
     //Variables de animaci�n
     private Animator animator;
+    public RuntimeAnimatorController animatorOrange;
+    public RuntimeAnimatorController animatorRed;
     public bool canChange;
 
     void Start()
@@ -69,7 +71,6 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         box = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
-
         currentState = PlayerState.WALK;
         canChange = false;
         attackAvailable = false;
@@ -190,6 +191,10 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(2f);
         currentState = PlayerState.WALK;
 
+        if (!shootAvailable)
+            animator.runtimeAnimatorController = animatorOrange;
+        else
+            animator.runtimeAnimatorController = animatorRed;
     }
 
 
