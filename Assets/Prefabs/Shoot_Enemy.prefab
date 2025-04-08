@@ -211,3 +211,4 @@ MonoBehaviour:
   thrustTime: 0
   affectedByProjectiles: 0
   affectedByMelee: 1
+  canBeKnockbacked: 0

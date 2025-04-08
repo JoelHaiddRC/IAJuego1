@@ -15,7 +15,7 @@ public class Torreta : MonoBehaviour
     public GameObject jugador;
     private StateMachine _maquinaEstados;
     public float distanciaDeteccion;
-
+    private Quaternion rotacionInicial;
     
     private void Awake()
     {
@@ -70,12 +70,17 @@ public class Torreta : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        rotacionInicial = transform.rotation;
     }
 
     // Update is called once per frame
     void Update()
     {
         _maquinaEstados.Tick();
+    }
+
+    private void OnDisable()
+    {
+        transform.rotation = rotacionInicial;
     }
 }

@@ -46,11 +46,9 @@ public class AtacarDistancia : Estado
     
     public void OnEnter()
     {
-        
     }
 
     public void OnExit()
     {
-
     }
 }

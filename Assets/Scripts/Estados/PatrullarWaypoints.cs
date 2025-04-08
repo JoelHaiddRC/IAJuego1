@@ -90,6 +90,9 @@ public class PatrullarWaypoints : Estado
         Vector3 pos = waypoints[0].transform.position;
         waypointPosition = new Vector2(pos.x, pos.y);
         waypointActual = 0;
+
+        if (personaje.gameObject.name.Contains("Contact_Enemy"))
+            personaje.gameObject.GetComponent<Animator>().SetTrigger("Patrol");
     }
 
 

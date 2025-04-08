@@ -37,6 +37,9 @@ public class Shooter : MonoBehaviour
         }
         projectile.GetComponent<Projectile>().setDirection(direction);
         Instantiate(projectile, transform.position + spawn, Quaternion.identity);
+        if (gameObject.name.Contains("Shoot"))
+            gameObject.GetComponent<Animator>().SetTrigger("Shoot");
+
         yield return new WaitForSeconds(waitTime);
         canShoot = true;
     }

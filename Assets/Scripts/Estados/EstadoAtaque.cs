@@ -68,7 +68,8 @@ public class EstadoAtaque : Estado
     
     public void OnEnter()
     {
-        
+        if(personaje.gameObject.name.Contains("Contact_Enemy"))
+            personaje.gameObject.GetComponent<Animator>().SetTrigger("Seek");
     }
 
     public void OnExit()

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
 
 public class RobotDefault : MonoBehaviour
 {
@@ -28,7 +29,7 @@ public class RobotDefault : MonoBehaviour
     public Rigidbody2D rbObjetivo;
 
     private StateMachine _maquinaEstados;
-
+    private Vector3 posicionInicial;
 
     private bool puedeAtacar() => Vector3.Distance(transform.position, objetivo.position) < distanciaDeteccion && !jugador.GetComponent<Player>().shootAvailable;
 
@@ -64,11 +65,16 @@ public class RobotDefault : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        posicionInicial = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
         _maquinaEstados.Tick();
+    }
+    private void OnDisable()
+    {
+        transform.position = posicionInicial;
     }
 }

@@ -128,6 +128,8 @@ public class Railes : MonoBehaviour
 
     private void OnEnable()
     {
+        ray = transform.GetChild(0).gameObject;
+        ray.SetActive(false);
         waypointPosition = waypoints[1].position;
         waypointActual = 1;
         if (!hardMode)
@@ -143,6 +145,5 @@ public class Railes : MonoBehaviour
     private void OnDisable()
     {
         transform.position = waypoints[0].position;
-        //ray.SetActive(false);
     }
 }
