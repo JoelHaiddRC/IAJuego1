@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
     public bool attackAvailable; //Indica si ya se desbloqueo el ataque cuerpo a cuerpo
     public bool shootAvailable; //Indica si ya se desbloqueo el ataque a distancia
     public bool swordChar; //True = ataque cuerpo a cuerpo, False = ataque a distancia
+    //public AudioClip swordAttackSound;
 
     LevelManager levelManager;
 
@@ -362,6 +363,7 @@ public class Player : MonoBehaviour
         if (swordChar)
         {
             animator.SetBool("IsAttacking", true);
+            //SoundFXManager.instance.PlaySoundFXClip(swordAttackSound, transform, 1f);
             sword.SetActive(true);
             swordPosition();
             yield return new WaitForSeconds(0.3f);

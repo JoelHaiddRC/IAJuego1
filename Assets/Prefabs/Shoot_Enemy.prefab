@@ -152,6 +152,7 @@ MonoBehaviour:
   projectile: {fileID: 6396239078075055380, guid: c5c30ff6cbf50ec41ab4273bc268283b, type: 3}
   canShoot: 0
   spawn: {x: 0, y: 0, z: 0}
+  shootSound: {fileID: 8300000, guid: 811862bb0e77ee94591138dfe2f9f17f, type: 3}
   waitTime: 1
 --- !u!114 &562318711
 MonoBehaviour:

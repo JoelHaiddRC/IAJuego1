@@ -7,7 +7,8 @@ public class Shooter : MonoBehaviour
 {
     public GameObject projectile; //El proyectil (debe ser un prefab)
     public bool canShoot;
-    public Vector3 spawn; //La posición donde aparecerá el proyectil
+    public Vector3 spawn; //La posiciï¿½n donde aparecerï¿½ el proyectil
+    //public AudioClip shootSound;
     
     public float waitTime;
     
@@ -18,7 +19,7 @@ public class Shooter : MonoBehaviour
         canShoot = true;
     }
 
-    //Método que debe ser llamado por otra clase para disparar y en qué dirección
+    //Mï¿½todo que debe ser llamado por otra clase para disparar y en quï¿½ direcciï¿½n
     public void Shoot(Vector2 direction)
     {
         if (canShoot)
@@ -37,6 +38,7 @@ public class Shooter : MonoBehaviour
         }
         projectile.GetComponent<Projectile>().setDirection(direction);
         Instantiate(projectile, transform.position + spawn, Quaternion.identity);
+        //SoundFXManager.instance.PlaySoundFXClip(shootSound, transform, 1f);
         if (gameObject.name.Contains("Shoot"))
             gameObject.GetComponent<Animator>().SetTrigger("Shoot");
 
