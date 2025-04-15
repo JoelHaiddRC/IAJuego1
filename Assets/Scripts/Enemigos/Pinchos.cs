@@ -41,4 +41,10 @@ public class Pinchos : MonoBehaviour
         animatorCelda.SetTrigger("Idle");
         canAttack = true;
     }
+
+    private void OnDisable()
+    {
+        pinchoCollider.enabled = false;
+        canAttack = true;
+    }
 }

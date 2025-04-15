@@ -153,6 +153,8 @@ public class LifeSystem : MonoBehaviour
     {
         if (gameObject.tag == "Player")
             gameObject.GetComponent<Player>().isAlive = false;
+        if (gameObject.name == "EnemyRobot")
+            levelManager.killedEnemy(3);
 
         isDead = true;
         gameObject.layer = 2;
@@ -170,5 +172,15 @@ public class LifeSystem : MonoBehaviour
                 levelManager.killedEnemy(2);
             GameObject.Destroy(gameObject); //Los enemigos se destruyen al morir
         }
+    }
+
+    private void OnDisable()
+    {
+        if (gameObject && gameObject.CompareTag("Enemies"))
+            gameObject.layer = LayerMask.NameToLayer("Enemy");
+        isDamaged = false;
+        damagedColor.a = 1f;
+        sprite.color = damagedColor;
+
     }
 }

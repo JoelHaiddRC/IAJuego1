@@ -35,6 +35,7 @@ public class RobotDefault : MonoBehaviour
 
     private void Awake()
     {
+        posicionInicial = transform.localPosition;
         jugador = GameObject.FindObjectOfType<Player>().gameObject;
         objetivo = jugador.transform;
 
@@ -61,20 +62,13 @@ public class RobotDefault : MonoBehaviour
         
     }
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        posicionInicial = transform.position;
-    }
-
-    // Update is called once per frame
     void Update()
     {
         _maquinaEstados.Tick();
     }
     private void OnDisable()
     {
-        transform.position = posicionInicial;
+        transform.localPosition = posicionInicial;
+        gameObject.layer = LayerMask.NameToLayer("Enemy");
     }
 }

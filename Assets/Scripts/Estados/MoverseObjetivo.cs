@@ -23,20 +23,10 @@ public class MoverseObjetivo : Estado
     }
 
 
-    /**
-      * Realiza el movimiento de Seek mejordado.
-      * Se modifica la velocidad del objeto para tener un movimiento basado en fisica.
-      */
     public void Tick()
     {
         Debug.Log("Me muevo a objetivo");
         agent.destination = objetivo.position;
-        
-        //Vector2 posicion = new Vector2(personaje.position.x, personaje.position.y);
-        //Vector2 posicionObj = new Vector2(objetivo.position.x, objetivo.position.y);
-        //Vector2 direccion = posicionObj - posicion;
-
-        //disparos.Shoot(direccion.normalized);
 
     }
 
@@ -47,10 +37,14 @@ public class MoverseObjetivo : Estado
     public void OnEnter()
     {
         Debug.Log("Entre en Moverme");
+        agent.isStopped = false;
+        animacionPersonaje.SetBool("Caminar", true);
     }
 
     public void OnExit()
     {
         Debug.Log("Sali moverme");
+        agent.isStopped = true;
+        animacionPersonaje.SetBool("Caminar", false);
     }
 }

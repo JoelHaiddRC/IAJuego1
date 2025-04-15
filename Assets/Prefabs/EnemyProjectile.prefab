@@ -136,6 +136,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a65911156d1f01f4cb8ceef032673cf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: {x: -0.99893415, y: 0.04615759}
-  moveSpeed: 10
+  direction: {x: -0.18818451, y: -0.9821337}
+  moveSpeed: 8
   projectileLife: 5

@@ -230,11 +230,9 @@ public class Player : MonoBehaviour
     //Cambia el arma deteniendo el jugador y espera cierto tiempo de recarga
     private IEnumerator ChangeWeapon()
     {
-        currentState = PlayerState.PAUSED;
         swordChar = !swordChar;
         yield return new WaitForSeconds(0.5f);
         canChange = true;
-        currentState = PlayerState.WALK;
     }
 
     //Indica hacia d�nde se movi� por �ltima vez el jugador

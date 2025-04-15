@@ -65,15 +65,11 @@ public class Torreta : MonoBehaviour
         
     }
 
-
-
-    // Start is called before the first frame update
     void Start()
     {
         rotacionInicial = transform.rotation;
     }
 
-    // Update is called once per frame
     void Update()
     {
         _maquinaEstados.Tick();

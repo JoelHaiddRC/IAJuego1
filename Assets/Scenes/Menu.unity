@@ -3683,9 +3683,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Moverte: ASWD o flechas direccionales\n\nAtacar: Space\n\nCambiar arma:
-    C\n\nPausa/ver objetivos: Esc\n\nSi tu energ\xEDa llega a cero morir\xE1s\nGanar\xE1s
-    si logras cruzar la salida"
+  m_text: "Moverte: ASWD o flechas direccionales\nAtacar: Space\nCambiar arma: C\nPausa/ver
+    objetivos: Esc\n\nSi tu energ\xEDa llega a cero morir\xE1s\nGanar\xE1s si logras
+    cruzar la salida\nAlgunos enemigos solo son vulnerables a ciertos ataques."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3712,7 +3712,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 15.9
+  m_fontSize: 17.65
   m_fontSizeBase: 48
   m_fontWeight: 400
   m_enableAutoSizing: 1

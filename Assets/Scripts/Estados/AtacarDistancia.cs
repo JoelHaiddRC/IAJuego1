@@ -46,9 +46,13 @@ public class AtacarDistancia : Estado
     
     public void OnEnter()
     {
+        if(personaje.name == "EnemyRobot")
+            animacionPersonaje.SetBool("Disparar", true);
     }
 
     public void OnExit()
     {
+        if (personaje.name == "EnemyRobot")
+            animacionPersonaje.SetBool("Disparar", false);
     }
 }

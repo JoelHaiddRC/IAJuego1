@@ -45,4 +45,15 @@ public class Shooter : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
         canShoot = true;
     }
+
+    private void OnEnable()
+    {
+        StartCoroutine("Wait");
+    }
+
+    private IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(1f);
+        canShoot = true;
+    }
 }

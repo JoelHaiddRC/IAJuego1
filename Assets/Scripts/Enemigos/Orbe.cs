@@ -19,6 +19,7 @@ public class Orbe : MonoBehaviour
     
     private void Awake()
     {
+        rotacionInicial = transform.localRotation;
         jugador = GameObject.FindObjectOfType<Player>().gameObject;
         objetivo = jugador.transform;
         _maquinaEstados = new StateMachine();
@@ -53,15 +54,6 @@ public class Orbe : MonoBehaviour
         
     }
 
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        rotacionInicial = transform.rotation;
-    }
-
-    // Update is called once per frame
     void Update()
     {
         _maquinaEstados.Tick();
@@ -69,6 +61,7 @@ public class Orbe : MonoBehaviour
 
     private void OnDisable()
     {
-        transform.rotation = rotacionInicial;
+        transform.localRotation = rotacionInicial;
+        gameObject.layer = LayerMask.NameToLayer("Enemy");
     }
 }

@@ -40,7 +40,7 @@ public class Projectile : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (colTrans.CompareTag("Collisions") || colTrans.CompareTag("PlayerAttack"))
+        if (colTrans.CompareTag("Collisions") || colTrans.CompareTag("PlayerAttack") || colTrans.CompareTag("Respawn"))
         {
             //Si colisionó con algun objeto con la tag "Collisions" u otro proyectil se destruye
             Destroy(gameObject);
@@ -61,7 +61,7 @@ public class Projectile : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (colTrans.CompareTag("Collisions") || colTrans.CompareTag("PlayerAttack"))
+        if (colTrans.CompareTag("Collisions") || colTrans.CompareTag("PlayerAttack") || colTrans.CompareTag("Respawn"))
         {
             Destroy(gameObject);
         }

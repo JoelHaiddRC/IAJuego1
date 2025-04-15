@@ -11,7 +11,7 @@ public class LevelManager : MonoBehaviour
     public GameObject winScreen;
     public Teleporter door;
     LifeSystem playerLife;
-    int enemiesLeft;
+    public int enemiesLeft;
     public int patrol;
     public int orb;
     public int shooter;
@@ -54,6 +54,9 @@ public class LevelManager : MonoBehaviour
             case 2:
                 orb--;
                 break;
+            case 3:
+                robotDefeated = true;
+                break;
         }
     }
 
@@ -88,7 +91,7 @@ public class LevelManager : MonoBehaviour
             return;
         }
 
-        if(enemiesLeft <= 0 && !exitOpen)
+        if(robotDefeated && !exitOpen)
         {
             exitOpen = true;
             UnlockAllDoors();
@@ -108,7 +111,7 @@ public class LevelManager : MonoBehaviour
             else
             {
                 if (enemiesLeft > 0)
-                    objectivesText.text = "Objetivo: Derrota a todos los enemigos restantes";
+                    objectivesText.text = "Objetivo: Derrota a todos los enemigos para quitarle el escudo al robot";
                 else
                 {
                     if (!robotDefeated)

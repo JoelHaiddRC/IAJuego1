@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 5078420326150704591}
   - component: {fileID: 5078420326150704588}
   - component: {fileID: 5078420326150704579}
-  - component: {fileID: 5078420326150704578}
   - component: {fileID: 1150660923}
   m_Layer: 6
   m_Name: Contact_Enemy
@@ -152,10 +151,11 @@ MonoBehaviour:
   life: 2
   maxLife: 2
   invencibleTime: 0.4
-  thrust: 5
+  thrust: 20
   thrustTime: 0.4
   affectedByProjectiles: 1
   affectedByMelee: 1
+  canBeKnockbacked: 1
 --- !u!95 &5078420326150704579
 Animator:
   serializedVersion: 5
@@ -177,28 +177,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5078420326150704578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5078420326150704586}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 119e1830e8b7587458e740524eb29f2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walkSpeed: 5
-  isAlive: 0
-  isVisible: 0
-  canChange: 0
-  canBeKnockbacked: 0
-  currentState: 0
-  velMaxima: 3
-  distanciaCambio: 1
-  velRotacion: 5
-  waypoints: []
 --- !u!114 &1150660923
 MonoBehaviour:
   m_ObjectHideFlags: 0
